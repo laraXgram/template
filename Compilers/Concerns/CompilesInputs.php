@@ -1,0 +1,318 @@
+<?php
+
+namespace LaraGram\Template\Compilers\Concerns;
+
+use LaraGram\Support\Str;
+
+trait CompilesInputs
+{
+    private $allowedInputsDirectives = [
+        "offset",
+        "limit",
+        "timeout",
+        "allowed_updates",
+        "url",
+        "certificate",
+        "ip_address",
+        "max_connections",
+        "drop_pending_updates",
+        "secret_token",
+        "chat_id",
+        "text",
+        "parse_mode",
+        "message_thread_id",
+        "reply_parameters",
+        "reply_markup",
+        "protect_content",
+        "disable_notification",
+        "link_preview_options",
+        "entities",
+        "business_connection_id",
+        "message_effect_id",
+        "allow_paid_broadcast",
+        "from_chat_id",
+        "message_id",
+        "video_start_timestamp",
+        "message_ids",
+        "caption",
+        "caption_entities",
+        "show_caption_above_media",
+        "remove_caption",
+        "photo",
+        "has_spoiler",
+        "audio",
+        "duration",
+        "performer",
+        "title",
+        "thumbnail",
+        "document",
+        "disable_content_type_detection",
+        "video",
+        "width",
+        "height",
+        "cover",
+        "start_timestamp",
+        "supports_streaming",
+        "animation",
+        "voice",
+        "video_note",
+        "length",
+        "star_count",
+        "media",
+        "payload",
+        "pars_mode",
+        "latitude",
+        "longitude",
+        "horizontal_accuracy",
+        "live_period",
+        "heading",
+        "proximity_alert_radius",
+        "address",
+        "foursquare_id",
+        "foursquare_type",
+        "google_place_id",
+        "google_place_type",
+        "phone_number",
+        "first_name",
+        "last_name",
+        "vcard",
+        "question",
+        "options",
+        "is_anonymous",
+        "type",
+        "allows_multiple_answers",
+        "question_parse_mode",
+        "question_entities",
+        "correct_option_id",
+        "explanation",
+        "explanation_parse_mode",
+        "explanation_entities",
+        "open_period",
+        "close_date",
+        "is_closed",
+        "emoji",
+        "action",
+        "reaction",
+        "is_big",
+        "user_id",
+        "file_id",
+        "until_date",
+        "revoke_messages",
+        "only_if_banned",
+        "permissions",
+        "use_independent_chat_permissions",
+        "can_manage_chat",
+        "can_delete_messages",
+        "can_manage_video_chats",
+        "can_restrict_members",
+        "can_promote_members",
+        "can_change_info",
+        "can_invite_users",
+        "can_post_stories",
+        "can_edit_stories",
+        "can_delete_stories",
+        "can_post_messages",
+        "can_edit_messages",
+        "can_pin_messages",
+        "can_manage_topics",
+        "sender_chat_id",
+        "name",
+        "expire_date",
+        "member_limit",
+        "creates_join_request",
+        "invite_link",
+        "description",
+        "sticker_set_name",
+        "icon_color",
+        "icon_custom_emoji_id",
+        "callback_query_id",
+        "show_alert",
+        "cache_time",
+        "commands",
+        "scope",
+        "language_code",
+        "short_description",
+        "menu_button",
+        "rights",
+        "for_channels",
+        "inline_message_id",
+        "sticker",
+        "custom_emoji_ids",
+        "sticker_format",
+        "stickers",
+        "sticker_type",
+        "needs_repainting",
+        "position",
+        "old_sticker",
+        "emoji_list",
+        "keywords",
+        "mask_position",
+        "format",
+        "custom_emoji_id",
+        "inline_query_id",
+        "results",
+        "is_personal",
+        "next_offset",
+        "button",
+        "web_app_query_id",
+        "result",
+        "provider_token",
+        "currency",
+        "price",
+        "max_tip_amount",
+        "suggested_tip_amounts",
+        "start_parameter",
+        "provider_data",
+        "photo_url",
+        "photo_size",
+        "photo_width",
+        "photo_height",
+        "need_name",
+        "need_phone_number",
+        "need_email",
+        "need_shipping_address",
+        "send_phone_number_to_provider",
+        "send_email_to_provider",
+        "is_flexible",
+        "subscription_period",
+        "shipping_query_id",
+        "ok",
+        "shipping_options",
+        "error_message",
+        "pre_checkout_query_id",
+        "telegram_payment_charge_id",
+        "errors",
+        "game_short_name",
+        "score",
+        "disable_edit_message",
+        "force",
+        "subscription_price",
+        "is_canceled",
+        "emoji_status_custom_emoji_id",
+        "emoji_status_expiration_date",
+        "allow_user_chats",
+        "allow_bot_chats",
+        "allow_group_chats",
+        "allow_channel_chats",
+        "gift_id",
+        "pay_for_upgrade",
+        "text_parse_mode",
+        "text_entities",
+        "custom_description",
+        "username",
+        "bio",
+        "is_public",
+        "show_gift_button",
+        "accepted_gift_types",
+        "exclude_unsaved",
+        "exclude_saved",
+        "exclude_unlimited",
+        "exclude_limited",
+        "exclude_unique",
+        "sort_by_price",
+        "owned_gift_id",
+        "keep_original_details",
+        "new_owner_chat_id",
+        "content",
+        "active_period",
+        "areas",
+        "post_to_chat_page",
+        "story_id",
+        "month_count",
+        "checklist",
+        "actor_chat_id",
+        "added_user_ids",
+        "allow_adding_options",
+        "allows_revoting",
+        "can_manage_direct_messages",
+        "can_manage_tags",
+        "can_send_welcome_messages",
+        "can_stop",
+        "chat_join_request_query_id",
+        "comment",
+        "correct_option_ids",
+        "country_codes",
+        "custom_title",
+        "description_entities",
+        "description_parse_mode",
+        "direct_messages_topic_id",
+        "draft_id",
+        "ephemeral_message_id",
+        "ephemeral_message_parameters",
+        "exclude_from_blockchain",
+        "exclude_limited_non_upgradable",
+        "exclude_limited_upgradable",
+        "explanation_media",
+        "from_story_id",
+        "guest_query_id",
+        "hide_results_until_closes",
+        "is_access_restricted",
+        "keep_on_stop",
+        "live_photo",
+        "members_only",
+        "prices",
+        "receiver_user_id",
+        "return_bots",
+        "rich_message",
+        "send_date",
+        "shuffle_options",
+        "suggested_post_parameters",
+        "tag",
+        "web_app_url"
+    ];
+
+    protected function tryCompileAllowedDirective(array $match): ?string
+    {
+        $directive = $match[1];
+
+        $expression = isset($match[3]) ? $this->stripParentheses($match[3]) : null;
+
+        if (Str::startsWith($directive, 'end')) {
+            $name = lcfirst(Str::after($directive, 'end'));
+
+            if (in_array($name, $this->allowedInputsDirectives)) {
+                return "<?php \$__t8__$name = trim(ob_get_clean()); ?>";
+            }
+        }
+
+        if (in_array($directive, $this->allowedInputsDirectives)) {
+            if ($expression !== null && $expression !== '') {
+                $value = $this->inputDirectiveValue($expression);
+
+                return "<?php \$__t8__$directive = {$value}; ?>";
+            }
+
+            return "<?php ob_start(); ?>";
+        }
+
+        return null;
+    }
+
+    /**
+     * Turn the argument of an input directive into a PHP expression.
+     *
+     * A bare word such as the "html" of @parse_mode(html) is meant as text,
+     * not as a constant, so it is quoted. Everything else is passed through.
+     *
+     * @param  string  $expression
+     * @return string
+     */
+    protected function inputDirectiveValue(string $expression): string
+    {
+        $expression = trim($expression);
+
+        if (preg_match('/^[A-Za-z][A-Za-z0-9_\-]*$/', $expression)
+            && ! in_array(strtolower($expression), ['true', 'false', 'null'], true)) {
+            return "'".$expression."'";
+        }
+
+        return $expression;
+    }
+
+    public function compileMethod($expression)
+    {
+        $method = trim($this->stripParentheses($expression ?? ''));
+
+        return "<?php \$__t8__method = {$method}; ?>";
+    }
+}
